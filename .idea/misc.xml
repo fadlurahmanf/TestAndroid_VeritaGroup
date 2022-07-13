@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/tffaj/AndroidStudioProjects/Kotlin/CLONE/TestAndroid-Gibox/TestAndroid-Gibox/app/src/main/res/layout/activity_list_user.xml" value="0.2713541666666667" />
         <entry key="..\:/Users/tffaj/AndroidStudioProjects/Kotlin/CLONE/TestAndroid-Gibox/TestAndroid-Gibox/app/src/main/res/layout/activity_login.xml" value="0.33177083333333335" />
+        <entry key="..\:/Users/tffaj/AndroidStudioProjects/Kotlin/CLONE/TestAndroid-Gibox/TestAndroid-Gibox/app/src/main/res/layout/dialog_loading.xml" value="0.33177083333333335" />
       </map>
     </option>
   </component>

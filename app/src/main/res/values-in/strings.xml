@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Test Android Gibox</string>
+    <string name="to_paging_example">Ke Contoh Paging</string>
+    <string name="to_login_example">Ke Contoh Login</string>
+    <string name="paging_user">Halaman User</string>
+    <string name="txt_login">Masuk</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_password">Kata Sandi</string>
+    <string name="txt_try_again">Coba Lagi</string>
+
+</resources>

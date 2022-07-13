@@ -1,0 +1,16 @@
+<!--
+  ~ Created by Muhamad Syafii
+  ~ Monday, 04/04/2022
+  ~ Copyright (c) 2022 by Gibox Digital Asia.
+  ~ All Rights Reserve
+  -->
+<resources>
+    <string name="app_name">Test Android Gibox</string>
+    <string name="to_paging_example">To paging example</string>
+    <string name="to_login_example">To Login Example</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_try_again">Try Again</string>
+    <string name="paging_user">Paging User</string>
+</resources>

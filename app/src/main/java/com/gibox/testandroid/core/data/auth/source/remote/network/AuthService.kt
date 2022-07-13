@@ -13,7 +13,7 @@ import com.gibox.testandroid.core.data.auth.source.remote.response.ResponseListU
 import retrofit2.http.*
 
 interface AuthService {
-    @POST("put end point here")
+    @POST("api/login")
     suspend fun authenticate(@Body body: LoginRequest?): LoginResponse
 
     @GET("put end point here")

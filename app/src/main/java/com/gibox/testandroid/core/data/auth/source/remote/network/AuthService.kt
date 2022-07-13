@@ -16,7 +16,7 @@ interface AuthService {
     @POST("api/login")
     suspend fun authenticate(@Body body: LoginRequest?): LoginResponse
 
-    @GET("put end point here")
+    @GET("api/users")
     suspend fun dataListUser(
         @Query("page") Page: Int
     ):ResponseListUser

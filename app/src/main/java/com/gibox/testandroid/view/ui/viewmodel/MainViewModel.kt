@@ -9,6 +9,7 @@ package com.gibox.testandroid.view.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -32,7 +33,37 @@ class MainViewModel(private val authUseCase:AuthUseCase):ViewModel() {
     val isLoadingRequestLogin = _isLoadingRequestLogin
 
     fun requestLogin(loginRequest:LoginRequest){
-        //TODO : Put here your code
+        viewModelScope.launch {
+            _isLoadingRequestLogin.value = true
+            authUseCase.doLogin(loginRequest).collect {
+                when(it){
+                    is Resource.Success -> {
+                        _isLoadingRequestLogin.value = false
+                        _isErrorRequestLogin.value = ""
+                        _dataRequestLogin.value = it.data
+                    }
+                    is Resource.Loading -> {
+                        _isLoadingRequestLogin.value = true
+                        _dataRequestLogin.value = LoginEntityDomain(
+                            token = null,
+                            page = null
+                        )
+                        _isErrorRequestLogin.value = ""
+                    }
+                    is Resource.Error -> {
+                        _isLoadingRequestLogin.value = false
+                        _isErrorRequestLogin.value = it.message
+                        _dataRequestLogin.value = LoginEntityDomain(
+                            token = null,
+                            page = null
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun requestListUser(){
 
     }
 

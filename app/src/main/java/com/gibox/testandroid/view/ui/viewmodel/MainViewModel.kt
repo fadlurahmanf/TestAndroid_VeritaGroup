@@ -16,6 +16,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.data.auth.source.remote.response.DataItem
+import com.gibox.testandroid.core.data.auth.source.remote.response.ResponseListUser
 import com.gibox.testandroid.core.data.vo.Resource
 import com.gibox.testandroid.core.domain.auth.model.LoginEntityDomain
 import com.gibox.testandroid.core.domain.auth.usecase.AuthUseCase
@@ -63,8 +64,45 @@ class MainViewModel(private val authUseCase:AuthUseCase):ViewModel() {
         }
     }
 
-    fun requestListUser(){
+    private val _isErrorRequestListUser = MutableLiveData<String>()
+    private val _dataRequestListUser = MutableLiveData<ResponseListUser>()
+    private val _isLoadingRequestListUser = MutableLiveData<Boolean>()
 
+    val isErrorRequestListUser = _isErrorRequestListUser
+    val dataRequestListUser = _dataRequestListUser
+    val isLoadingRequestListUser = _isLoadingRequestListUser
+
+    fun requestListUser(page:Int){
+        viewModelScope.launch {
+            _isLoadingRequestListUser.value = true
+            authUseCase.getUserList(page).collect {
+                when(it){
+                    is Resource.Success -> {
+                        _isLoadingRequestListUser.value = false
+                        _dataRequestListUser.value = it.data
+                        _isErrorRequestListUser.value = ""
+                    }
+                    is Resource.Loading -> {
+                        _isLoadingRequestListUser.value = true
+                        _isErrorRequestListUser.value = ""
+                        _dataRequestListUser.value = ResponseListUser(
+                            page = null,
+                            data = null,
+                            total = null
+                        )
+                    }
+                    is Resource.Error -> {
+                        _isLoadingRequestListUser.value = false
+                        _isErrorRequestListUser.value = ""
+                        _dataRequestListUser.value = ResponseListUser(
+                            page = null,
+                            total = null,
+                            data = null
+                        )
+                    }
+                }
+            }
+        }
     }
 
 }

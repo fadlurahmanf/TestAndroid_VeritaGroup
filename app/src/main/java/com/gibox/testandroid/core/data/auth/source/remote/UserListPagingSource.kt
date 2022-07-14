@@ -23,7 +23,7 @@ class UserListPagingSource(private val service: AuthService): PagingSource<Int, 
         return try {
             val response = service.dataListUser(position)
             val products = response.data
-            val nextKey = if (products.isEmpty()) {
+            val nextKey = if (products?.isEmpty() == true) {
                 null
             } else {
                 // initial load size = 3 * NETWORK_PAGE_SIZE
@@ -31,7 +31,7 @@ class UserListPagingSource(private val service: AuthService): PagingSource<Int, 
                 position + 1
             }
             LoadResult.Page(
-                data = products,
+                data = listOf(),
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = nextKey
             )

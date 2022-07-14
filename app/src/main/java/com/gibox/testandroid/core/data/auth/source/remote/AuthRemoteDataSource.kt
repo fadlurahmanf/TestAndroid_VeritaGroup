@@ -15,6 +15,7 @@ import com.gibox.testandroid.core.data.auth.source.remote.network.AuthService
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.data.auth.source.remote.response.DataItem
 import com.gibox.testandroid.core.data.auth.source.remote.response.LoginResponse
+import com.gibox.testandroid.core.data.auth.source.remote.response.ResponseListUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -51,10 +52,37 @@ class AuthRemoteDataSource(private val authService: AuthService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getListUser():Flow<PagingData<DataItem>>{
-        return Pager(
-            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE,enablePlaceholders = false),
-            pagingSourceFactory = {UserListPagingSource(authService)}
-        ).flow
+    fun getListUser(page:Int):Flow<ApiResponse<ResponseListUser>>{
+        return flow {
+            try {
+                val response = authService.dataListUser(page)
+                if(response.data != null){
+                    emit(ApiResponse.Success(response))
+                }else{
+                    emit(ApiResponse.Empty)
+                }
+            }catch (e:HttpException){
+                emit(ApiResponse.Error(e.message()))
+            }
+        }
     }
+
+//    fun getListUser():Flow<PagingData<DataItem>>{
+//        return flow {
+//            try {
+//
+//            }catch (e:HttpException){
+//                emit(ApiResponse.Error(e.message()))
+//            }
+//        }
+//        return Pager(
+//            config = PagingConfig(
+//                pageSize = NETWORK_PAGE_SIZE,
+//                enablePlaceholders = false
+//            ),
+//            pagingSourceFactory = {
+//                UserListPagingSource(authService)
+//            }
+//        ).flow
+//    }
 }

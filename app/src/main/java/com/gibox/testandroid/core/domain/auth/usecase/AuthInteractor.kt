@@ -10,6 +10,7 @@ package com.gibox.testandroid.core.domain.auth.usecase
 import androidx.paging.PagingData
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.data.auth.source.remote.response.DataItem
+import com.gibox.testandroid.core.data.auth.source.remote.response.ResponseListUser
 import com.gibox.testandroid.core.data.vo.Resource
 import com.gibox.testandroid.core.domain.auth.model.LoginEntityDomain
 import com.gibox.testandroid.core.domain.auth.repository.IAuthRepository
@@ -20,7 +21,7 @@ class AuthInteractor(private val authRepository: IAuthRepository):AuthUseCase {
         return authRepository.doLogin(dataLogin)
     }
 
-    override fun getUserList(): Flow<PagingData<DataItem>> {
-        return authRepository.getUserList()
+    override fun getUserList(pageInt: Int): Flow<Resource<ResponseListUser>> {
+        return authRepository.getUserList(pageInt)
     }
 }

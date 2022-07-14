@@ -13,6 +13,7 @@ import com.gibox.testandroid.core.ApiResponse
 import com.gibox.testandroid.core.data.auth.source.remote.AuthRemoteDataSource
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.data.auth.source.remote.response.DataItem
+import com.gibox.testandroid.core.data.auth.source.remote.response.ResponseListUser
 import com.gibox.testandroid.core.data.persistences.mapper.auth.AuthDataMapper
 import com.gibox.testandroid.core.data.vo.Resource
 import com.gibox.testandroid.core.domain.auth.model.LoginEntityDomain
@@ -23,7 +24,6 @@ import kotlinx.coroutines.flow.flow
 
 @ExperimentalPagingApi
 class AuthRepository(private val authRemoteDataSource: AuthRemoteDataSource): IAuthRepository {
-
 
     override fun doLogin(dataLogin: LoginRequest): Flow<Resource<LoginEntityDomain>> = flow {
         emit(Resource.Loading())
@@ -41,8 +41,16 @@ class AuthRepository(private val authRemoteDataSource: AuthRemoteDataSource): IA
         }
     }
 
-    override fun getUserList(): Flow<PagingData<DataItem>> {
-        return authRemoteDataSource.getListUser()
+    override fun getUserList(page:Int): Flow<Resource<ResponseListUser>> = flow {
+        emit(Resource.Loading())
+        when(val apiResponse = authRemoteDataSource.getListUser(page).first()){
+            is ApiResponse.Success->{
+                emit(Resource.Success(apiResponse.data))
+            }
+            is ApiResponse.Error->{
+                emit(Resource.Error(apiResponse.errorMessage))
+            }
+        }
     }
 
 

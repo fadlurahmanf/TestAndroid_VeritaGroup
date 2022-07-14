@@ -12,15 +12,12 @@ import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.databinding.ActivityLoginBinding
-import com.gibox.testandroid.util.constant.FIELD_REQUIRED
-import com.gibox.testandroid.util.hideKeyboard
-import com.gibox.testandroid.util.openActivity
-import com.gibox.testandroid.util.showToast
 import com.gibox.testandroid.view.ui.dialog.LoadingDialog
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
-import com.gibox.testandroid.view.ui.listuser.ListUserActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.IOException
+import java.lang.RuntimeException
 
 class LoginActivity : AppCompatActivity() {
 
@@ -98,10 +95,12 @@ class LoginActivity : AppCompatActivity() {
     private fun initAction() {
         binding.btnLogin.setOnClickListener {
             if(binding.etPassword.text?.isNotEmpty() == true && binding.etEmail.text?.isNotEmpty() == true){
-                mainViewModel.requestLogin(LoginRequest(
+                mainViewModel.requestLogin(
+                    LoginRequest(
                     email = binding.etEmail.text?.toString()?:"",
                     password = binding.etPassword.text?.toString()?:""
-                ))
+                )
+                )
             }
         }
     }
